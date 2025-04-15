@@ -1,0 +1,11 @@
+FROM docker.io/michaelf34/infinity:0.0.76 as infinity
+WORKDIR /app
+COPY download.py .
+RUN python download.py --model-id BAAI/bge-reranker-v2-m3 --output-dir /app/model
+
+FROM ghcr.io/huggingface/text-embeddings-inference:cpu-1.7
+WORKDIR /app
+COPY --from=infinity /app/model /app/model
+ENV HF_HUB_OFFLINE=1
+ENTRYPOINT [ "text-embeddings-router" ]
+CMD [ "--model-id", "/app/model", "--dtype", "float32", "--port", "8000" ]
