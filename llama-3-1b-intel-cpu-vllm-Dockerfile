@@ -1,0 +1,9 @@
+FROM tfy.jfrog.io/tfy-mirror/intelanalytics/ipex-llm-serving-cpu:2.3.0-SNAPSHOT
+WORKDIR /app
+COPY download.py .
+RUN python download.py --model-id unsloth/Meta-Llama-3.1-8B-Instruct --output-dir /app/model
+ENV HF_HUB_OFFLINE=1
+CMD ["python", "-m", "ipex_llm.vllm.cpu.entrypoints.openai.api_server", "--served-model-name", "llm", "--port", "8000", "--model", "/app/model", "--trust-remote-code", "--device", "cpu", "--dtype", "bfloat16", "--enforce-eager", "--load-in-low-bit", "bf16", "--max-model-len", "4096", "--max-num-batched-tokens", "10240", "--max-num-seqs", "4", "--tensor-parallel-size", "1"]
+
+
+
