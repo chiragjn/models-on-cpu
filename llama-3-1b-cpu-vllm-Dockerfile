@@ -3,8 +3,8 @@ WORKDIR /app
 COPY download.py .
 RUN python download.py --model-id unsloth/Llama-3.2-1B-Instruct --output-dir /app/model
 ENV HF_HUB_OFFLINE=1
-ENTRYPOINT [ "vllm-cpu-env" ]
-CMD [ "--served-model-name", "llm", "--port", "8000", "--model", "/app/model", "--trust-remote-code", "--device", "cpu", "--dtype", "bfloat16", "--enforce-eager", "--load-in-low-bit", "bf16", "--max-model-len", "4096", "--max-num-batched-tokens", "10240", "--max-num-seqs", "4", "--tensor-parallel-size", "1" ]
+ENTRYPOINT [ "python3" ]
+CMD [ "-u", "-m", "vllm.entrypoints.openai.api_server", "--host", "0.0.0.0", "--port", "8000", "--served-model-name", "llm", "--model", "/app/model", "--trust-remote-code", "--device", "cpu", "--dtype", "bfloat16", "--enforce-eager", "--max-model-len", "4096", "--max-num-batched-tokens", "10240", "--max-num-seqs", "4", "--tensor-parallel-size", "1" ]
 
 
 

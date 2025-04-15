@@ -1,7 +1,7 @@
 FROM docker.io/michaelf34/infinity:0.0.76 as infinity
 WORKDIR /app
 COPY download.py .
-RUN python download.py --model-id BAAI/bge-reranker-v2-m3 --output-dir /app/model
+RUN python download.py --model-id BAAI/bge-reranker-base --output-dir /app/model
 
 FROM ghcr.io/huggingface/text-embeddings-inference:cpu-1.7
 WORKDIR /app
