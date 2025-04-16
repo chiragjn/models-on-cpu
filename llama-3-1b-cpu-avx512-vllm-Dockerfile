@@ -8,3 +8,4 @@ CMD [ "-u", "-m", "vllm.entrypoints.openai.api_server", "--host", "0.0.0.0", "--
 
 
 
+[ "-u", "-m", "vllm.entrypoints.openai.api_server", "--host", "0.0.0.0", "--port", "8000", "--served-model-name", "llm", "--model", "/app/model", "--device", "cpu", "--dtype", "bfloat16", "--enforce-eager", "--max-model-len", "4096", "--max-num-batched-tokens", "10240", "--max-num-seqs", "4", "--tensor-parallel-size", "1" ]

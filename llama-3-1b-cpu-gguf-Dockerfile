@@ -1,0 +1,9 @@
+FROM ghcr.io/ggml-org/llama.cpp:server-b5124
+WORKDIR /app
+RUN mkdir -p /app/model && \
+    curl -L https://huggingface.co/bartowski/Llama-3.2-1B-Instruct-GGUF/resolve/main/Llama-3.2-1B-Instruct-f16.gguf -o /app/model/model.gguf
+ENV LLAMA_ARG_MODEL=/app/model/model.gguf \
+    LLAMA_ARG_CTX_SIZE=4096 \
+    LLAMA_ARG_N_PARALLEL=2 \
+    LLAMA_ARG_ENDPOINT_METRICS=1 \
+    LLAMA_ARG_PORT=8000
